@@ -9,8 +9,8 @@
   ];
   let step = 0, selectedFile = null, previewUrl = null;
   // حساب آزمایشی را از همین دو مقدار تغییر دهید.
-  const DEMO_USERNAME = "demo-user";
-  const DEMO_PASSWORD = "demo-1234";
+  const DEMO_USERNAME = "2840122138";
+  const DEMO_PASSWORD = "Rayan@1026";
   $("loginForm").addEventListener("submit", event => {
     event.preventDefault();
     const valid = $("username").value.trim() === DEMO_USERNAME && $("password").value === DEMO_PASSWORD;
