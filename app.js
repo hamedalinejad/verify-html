@@ -8,6 +8,15 @@
     {label:"کمی به سمت پایین نگاه کنید",arrow:"↓",transform:"translateY(8px)"}
   ];
   let step = 0, selectedFile = null, previewUrl = null;
+  // حساب آزمایشی را از همین دو مقدار تغییر دهید.
+  const DEMO_USERNAME = "demo-user";
+  const DEMO_PASSWORD = "demo-1234";
+  $("loginForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const valid = $("username").value.trim() === DEMO_USERNAME && $("password").value === DEMO_PASSWORD;
+    $("loginError").hidden = valid;
+    if (valid) { $("loginScreen").hidden = true; $("appShell").hidden = false; window.scrollTo(0,0); }
+  });
   const renderStep = () => {
     $("guideCount").textContent = (step+1).toLocaleString("fa-IR")+" از ۵";
     $("guideProgress").style.width = ((step+1)*20)+"%";
@@ -58,14 +67,11 @@
   $("dropZone").addEventListener("drop",e=>chooseFile(e.dataTransfer.files[0]));
   $("submitButton").addEventListener("click",()=>{
     if(!selectedFile)return;
-    $("submitButton").hidden=true; $("reviewState").hidden=false;
-    // Demo only: no network request, upload, persistent storage, or real identity check.
-    window.setTimeout(()=>{
-      $("reviewState").innerHTML='<div class="review-check">✓</div><div><b>درخواست نمایشی ثبت شد</b><p>این نسخه فقط ظاهر فرآیند را نمایش می‌دهد؛ ویدئو جایی ارسال نشده است.</p></div><span class="demo-tag">بدون ارسال</span>';
-      const check=document.querySelector(".review-check");
-      check.style.cssText="width:27px;height:27px;border-radius:50%;background:#e1f4eb;color:#279b70;display:grid;place-items:center;font-weight:800";
-    },1600);
+    $("appShell").hidden = true;
+    $("reviewScreen").hidden = false;
+    window.scrollTo({top:0,behavior:"smooth"});
   });
+  $("backToStart").addEventListener("click",()=>{ $("reviewScreen").hidden=true; $("appShell").hidden=false; window.scrollTo({top:0,behavior:"smooth"}); });
   if("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
   }
